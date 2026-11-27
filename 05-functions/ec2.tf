@@ -1,15 +1,15 @@
 resource "aws_instance" "functions" {
  instance_type = "t3.micro"
  ami = "ami-0055977a6e828a4f4" 
- vpc_security_group_ids = [aws_security_group.web.id]
+ vpc_security_group_ids = [aws_security_group.functions.id]
 
- tags = merge {
+ tags = merge (
     var.common_tags,
     {
       Name = "functions-demo"
       Component = "poc"
     }
- }
+ )
 }
 
 resource "aws_security_group" "functions" {
@@ -30,12 +30,12 @@ resource "aws_security_group" "functions" {
     cidr_blocks      = ["0.0.0.0/0"]
   }
 
-  tags = merge {
+  tags = merge (
     var.common_tags,
     {
       Name = "functions-sg"
       Component = "poc"
     }
- }
+  )
 }
 
